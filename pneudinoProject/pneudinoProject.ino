@@ -32,26 +32,52 @@
 
 PneuDuino air = PneuDuino();
 
+int pressureCal = 0;
+
 void setup() {
   Serial.begin(9600);
-  air.begin();  // start the pneuDuino library
-  // your setup-code after this:
-  
+  air.begin();  // start the pneuDuino library  
 }
 
 void loop() {
   air.update();  // update the pneuDuino library
-  // your loop code after this:
   
-  air.in(11, LEFT);
-  delay(1000);
+  if(pressureCal == 0){
+    air.out(11, LEFT);
+    delay(2000);
+    pressureCal = air.readPressure(11);
+  }
   
-  air.out(11, LEFT);
-  delay(5000);
   
-  air.in(11, LEFT);
-  delay(1000);
+  Serial.println(abs(air.readPressure(11) - pressureCal));
   
-  air.out(11, LEFT);
-  delay(5000);
+  if (abs(air.readPressure(11) - pressureCal) >= 20 ){
+    air.out(11, RIGHT);
+    delay(500);
+    air.in(11, RIGHT);
+    delay(300);
+     air.out(11, RIGHT);
+    delay(200);
+    air.in(11, RIGHT);
+    delay(100);
+  }
+  
+  
+  
+      
+/*  air.out(11, RIGHT);
+  delay(500);
+ /* while(millis() < 500){
+    Serial.println("before");
+    Serial.println(air.readPressure(11)); 
+  }*/
+/*  air.in(11, RIGHT);
+  delay(2000);
+ /* while(millis() < 2000){
+    Serial.println("after");
+    Serial.println(air.readPressure(11)); 
+  }*/
+ 
+ 
+  
 }
