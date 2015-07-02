@@ -45,6 +45,13 @@ void loop() {
   
   air.in(2, LEFT);
   delay(500);
+  
   air.out(2, LEFT);
+  delay(750);
+  
+  air.in(2, LEFT);
   delay(500);
+  
+  air.out(2, LEFT);
+  delay(2000);
 }
